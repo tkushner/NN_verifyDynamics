@@ -60,7 +60,7 @@ struct parameter_values
     num_similar = 1e-5;
     delta_inflection = 2e-3;
 
-    MILP_M = 1e10;
+    MILP_M = 1e15;
     MILP_tolerance = 5e-2;
     MILP_e_tolerance = 1e-25;
     epsilon_degeneracy = 1e-10;

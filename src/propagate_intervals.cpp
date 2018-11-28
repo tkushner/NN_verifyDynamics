@@ -126,7 +126,6 @@ network_handler :: network_handler(const char* name)
 
   file.close();
 
-
 }
 
 network_handler :: network_handler( vector< vector< vector< datatype > > > weights,
@@ -156,6 +155,7 @@ void network_handler :: cast_to_single_output_network(
       vector< vector< datatype > >& biases,
       unsigned int output_number)
 {
+
   if((output_number == 0) || (output_number > no_of_outputs))
   {
     cout << "Output index out of range in the function cast_to_single_output_network() .. " << endl;
@@ -166,6 +166,7 @@ void network_handler :: cast_to_single_output_network(
     cout << "Number of inputs don't match in cast_to_single_output_network()" << endl;
     exit(0);
   }
+
 
   if((weights[no_of_hidden_layers].size()) != no_of_outputs)
   {
@@ -180,6 +181,7 @@ void network_handler :: cast_to_single_output_network(
   vector< datatype > buffer_bias;
 
   unsigned int i, j , k;
+
 
   i = 0;
   while(i < no_of_hidden_layers)
@@ -514,6 +516,28 @@ void network_handler :: do_gradient_search(
   normalize_vector(gradient);
  //  cout << "Corrected gradient = " << endl;
 
+ i = 0;
+ while(i < no_of_inputs)
+ {
+   if(isnan(gradient[i]) || (abs(gradient[i]) < sherlock_parameters.tool_zero))
+   {
+     vector< datatype > counter_ex;
+     datatype val;
+    // optimize_diff_NN_and_PWL(region_constraints, weights, biases,
+    //   region_descriptions, linear_mapping, val, offset, scaling);
+
+      val = do_MILP_optimization(region_constraints, weights, biases,
+      counter_ex, direction);
+    // find_random_sample(region_constraints, 1, counter_ex);
+     extrema_point = counter_ex;
+     return_val.clear();
+     return_val.push_back(val);
+     return_val.push_back(val);
+     return;
+   }
+   i++;
+ }
+
  if(!sherlock_parameters.skip_LP_jump)
  {
    if(direction == 1)
@@ -603,6 +627,7 @@ void network_handler :: do_gradient_search(
       current_point = old_point;
       change_amount = 1e20;
     }
+
     switch_count++;
     if(switch_count > sherlock_parameters.grad_switch_count)
     {

@@ -3295,7 +3295,7 @@ datatype do_MILP_optimization(
     }
     datatype limit;
     limit = neuron_variables[no_of_hidden_layers+1][0].get(GRB_DoubleAttr_X);
-    cout << "Node count = " << model_ptr->get(GRB_DoubleAttr_NodeCount) << endl;
+    // cout << "Node count = " << model_ptr->get(GRB_DoubleAttr_NodeCount) << endl;
 
     delete model_ptr;
     delete env_ptr;
@@ -3313,8 +3313,8 @@ datatype do_MILP_optimization(
   }
   else
   {
-    cout << "Unknown error in gurobi implementation ... " << endl;
-    cout << "Status code = " << model_ptr->get(GRB_IntAttr_Status)  << endl;
+    // cout << "Unknown error in gurobi implementation ... " << endl;
+    // cout << "Status code = " << model_ptr->get(GRB_IntAttr_Status)  << endl;
     return 0;
   }
 

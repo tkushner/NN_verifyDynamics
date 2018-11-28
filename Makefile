@@ -8,7 +8,7 @@ GUROBI_INCLUDEDIR=$(strip $(GUROBI_PATH))/$(strip $(HOST_ARCH))/include
 GUROBI_LIBDIR=$(strip $(GUROBI_PATH))/$(strip $(HOST_ARCH))/lib
 
 
-LIBS = -lgurobi_c++ -lgurobi75 -lm -D_GLIBCXX_USE_CXX11_ABI=0 -m64 -w
+LIBS = -lgurobi_c++ -lgurobi81 -lm -D_GLIBCXX_USE_CXX11_ABI=0 -m64 -w
 
 CXXFLAGS = -MMD -I . -I ./src  -I /usr/local/include/ -I $(GUROBI_INCLUDEDIR) -g -O3 -std=c++11
 
@@ -29,6 +29,12 @@ libs: $(OBJS)
 run_file: main.o $(OBJS)
 	g++ -O3 -w $(LINK_FLAGS) -o $@ $^ $(LIBS)
 
+%.o: %.cc
+	$(CXX) -O3 -c $(CXXFLAGS) -o $@ $< $(LIBS)
+%.o: %.cpp
+	$(CXX) -O3 -c $(CXXFLAGS) -o $@ $< $(LIBS)
+%.o: %.c
+	$(CXX) -O3 -c $(CXXFLAGS) -o $@ $< $(LIBS)
 
 clean:
 	rm -f ./src/*.o *.o ./run_file ./lib/* ./include/configuration.h ./include/gurobi_interface.h ./include/network_computation.h ./include/propagate_intervals.h 	

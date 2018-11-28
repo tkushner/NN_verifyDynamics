@@ -1,8 +1,20 @@
-# sherlock
+# Verify NN Dynamics
+Taisa Kushner -- Nov 2018
 
-Sherlock is an output range analysis tool for deep neural networks.
-The current version can handle only feedforward neural networks, with
-ReLU activation units.
+Verification of neural network dynamics for blood glucose prediction.
+Assert: insulin inc -> glucose dec
+Uses output range analysis via Sherlock and works for feedforward nets with ReLU activation fns. 
+
+Supply the network weights, biases, structure based on Sherlock format.
+Supply initialization vector for BG values.
+
+Default range for basal doses: 0-0.05 U/5min
+Default noise on BG values: +/- 4mg/dL
+
+
+Verification of neural network dynamics using output range analysis. 
+Feedforward nets with ReLU activation fns.
+
 
 The only library that is needed is the MILP solver Gurobi. It's free
 for academic purposes and can be downloaded from here :
@@ -11,18 +23,12 @@ http://www.gurobi.com/resources/getting-started/mip-basics
 
 ## Instructions to Compile
 
-Please modify the file Makefile.locale to help us find Gurobi.
+Please modify the file Makefile.locale to help find Gurobi.
 
-For a Mac with the latest gurobi7.52 installed your likely settings
-will be:
+For a Mac with Gurobi 8.1: 
 
 > HOST_ARCH=mac64
-> GUROBI_PATH=/Library/gurobi752
-
-For a linux box, your settins will be:
-
-> ARCH=linux64 # if you are using a linux box
-> GUROBI_PATH=/opt/gurobi752
+> GUROBI_PATH=/Library/gurobi810
 
 You should feel free to modify these two variables. The Makefile will look for Gurobi headers under
 
@@ -37,16 +43,9 @@ Once these are set, you should type
 
 > make 
 
-to compile. It should work out of the box.
+to compile.
 
 ## Instructions to run
 
-Please use the command line run_file to run all the benchmarks.
+> ./run_file insulin_low insulin_high
 
-> ./run_file all
-
-
-Enjoy the output as it scrolls on your screen :-)
-
-Alternatively, you can run a specific benchmark using the following command : 
- > ./run_file <benchmark_no>
